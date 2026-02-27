@@ -1,5 +1,7 @@
 # Plano 002 - Shared Types
 
+Status: [DONE]
+
 ## Objetivo
 - Centralizar contratos com Zod e tipos inferidos.
 - Garantir a Regra de Ouro do Monorepo.
