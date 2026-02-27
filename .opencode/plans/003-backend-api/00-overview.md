@@ -1,5 +1,7 @@
 # Plano 003 - Backend API
 
+Status: [DONE]
+
 ## Objetivo
 - Implementar Token Server em NestJS com logs no Postgres.
 - Usar schemas compartilhados para validacao.

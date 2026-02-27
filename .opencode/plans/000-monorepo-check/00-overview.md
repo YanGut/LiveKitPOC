@@ -1,5 +1,7 @@
 # Plano 000 - Monorepo Check
 
+Status: [DONE]
+
 ## Objetivo
 - Validar resolucao de tipos entre workspaces antes de iniciar o Plano 003 (NestJS).
 - Garantir que frontend e backend leem os mesmos contratos de `packages/shared-types`.
