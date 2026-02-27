@@ -190,7 +190,7 @@ Critérios de Aceite
 - Redis é usado como suporte (LiveKit e eventual pub/sub local).
 
 ### 7.2 Estrutura do Monorepo
-Gerenciamento sugerido: npm workspaces, Turborepo ou Nx.
+Gerenciamento sugerido: bun workspaces, Turborepo ou Nx.
 
 Estrutura:
 
