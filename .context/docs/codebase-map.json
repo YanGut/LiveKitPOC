@@ -1,0 +1,165 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-02-13T21:15:30.381Z",
+  "stack": {
+    "primaryLanguage": "python",
+    "languages": [
+      "python"
+    ],
+    "frameworks": [],
+    "buildTools": [],
+    "testFrameworks": [],
+    "packageManager": null,
+    "isMonorepo": false,
+    "hasDocker": false,
+    "hasCI": false
+  },
+  "structure": {
+    "totalFiles": 8,
+    "topDirectories": [
+      {
+        "name": "LICENSE",
+        "fileCount": 1
+      },
+      {
+        "name": "skills",
+        "fileCount": 7
+      }
+    ],
+    "languageDistribution": [
+      {
+        "extension": ".md",
+        "count": 3
+      },
+      {
+        "extension": ".py",
+        "count": 3
+      },
+      {
+        "extension": ".txt",
+        "count": 1
+      }
+    ]
+  },
+  "architecture": {
+    "layers": [],
+    "patterns": [],
+    "entryPoints": []
+  },
+  "symbols": {
+    "classes": [],
+    "interfaces": [],
+    "functions": [
+      {
+        "name": "init_skill",
+        "kind": "function",
+        "file": "skills/skill-creator/scripts/init_skill.py",
+        "line": 194,
+        "exported": true
+      },
+      {
+        "name": "main",
+        "kind": "function",
+        "file": "skills/skill-creator/scripts/package_skill.py",
+        "line": 85,
+        "exported": true
+      },
+      {
+        "name": "main",
+        "kind": "function",
+        "file": "skills/skill-creator/scripts/init_skill.py",
+        "line": 117,
+        "exported": true
+      },
+      {
+        "name": "main",
+        "kind": "function",
+        "file": "skills/skill-creator/scripts/init_skill.py",
+        "line": 273,
+        "exported": true
+      },
+      {
+        "name": "package_skill",
+        "kind": "function",
+        "file": "skills/skill-creator/scripts/package_skill.py",
+        "line": 19,
+        "exported": true
+      },
+      {
+        "name": "title_case_skill_name",
+        "kind": "function",
+        "file": "skills/skill-creator/scripts/init_skill.py",
+        "line": 189,
+        "exported": true
+      },
+      {
+        "name": "validate_skill",
+        "kind": "function",
+        "file": "skills/skill-creator/scripts/quick_validate.py",
+        "line": 12,
+        "exported": true
+      }
+    ],
+    "types": [],
+    "enums": []
+  },
+  "publicAPI": [
+    {
+      "name": "init_skill",
+      "kind": "function",
+      "file": "skills/skill-creator/scripts/init_skill.py",
+      "line": 194,
+      "exported": true
+    },
+    {
+      "name": "main",
+      "kind": "function",
+      "file": "skills/skill-creator/scripts/package_skill.py",
+      "line": 85,
+      "exported": true
+    },
+    {
+      "name": "main",
+      "kind": "function",
+      "file": "skills/skill-creator/scripts/init_skill.py",
+      "line": 117,
+      "exported": true
+    },
+    {
+      "name": "main",
+      "kind": "function",
+      "file": "skills/skill-creator/scripts/init_skill.py",
+      "line": 273,
+      "exported": true
+    },
+    {
+      "name": "package_skill",
+      "kind": "function",
+      "file": "skills/skill-creator/scripts/package_skill.py",
+      "line": 19,
+      "exported": true
+    },
+    {
+      "name": "title_case_skill_name",
+      "kind": "function",
+      "file": "skills/skill-creator/scripts/init_skill.py",
+      "line": 189,
+      "exported": true
+    },
+    {
+      "name": "validate_skill",
+      "kind": "function",
+      "file": "skills/skill-creator/scripts/quick_validate.py",
+      "line": 12,
+      "exported": true
+    }
+  ],
+  "dependencies": {
+    "mostImported": []
+  },
+  "stats": {
+    "totalSymbols": 7,
+    "exportedSymbols": 7,
+    "analysisTimeMs": 13
+  }
+}
