@@ -1,0 +1,69 @@
+version: '3.9'
+services:
+  livekit:
+    image: livekit/livekit-server:latest
+    command: --config /livekit.yaml --node-ip 127.0.0.1
+    ports:
+      - "7880:7880"   # API/Signal (HTTP/WebSocket)
+      - "7881:7881"   # TCP (RTC)
+      - "7882:7882"   # UDP (RTC)
+      - "50000-50050:50000-50050/udp" # Media Ports (Range reduzido local)
+    volumes:
+      - ./livekit.yaml:/livekit.yaml
+    networks:
+      - livemeet-net
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - livemeet-net
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: livemeet
+    ports:
+      - "5432:5432"
+    networks:
+      - livemeet-net
+
+  api:
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+    environment:
+      DATABASE_URL: postgres://user:password@postgres:5432/livemeet
+      REDIS_URL: redis://redis:6379
+      LIVEKIT_API_KEY: "devkey"
+      LIVEKIT_API_SECRET: "secret"
+      LIVEKIT_URL: "ws://livekit:7880"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - redis
+      - livekit
+    networks:
+      - livemeet-net
+
+  web:
+    build:
+      context: .
+      dockerfile: ./apps/web/Dockerfile
+    environment:
+      VITE_API_URL: "http://localhost:3000"
+      VITE_LIVEKIT_URL: "ws://localhost:7880"
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+    networks:
+      - livemeet-net
+
+networks:
+  livemeet-net:
+    driver: bridge

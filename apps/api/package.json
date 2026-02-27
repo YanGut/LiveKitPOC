@@ -1,0 +1,8 @@
+{
+  "name": "@livemeet/api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run index.ts"
+  }
+}

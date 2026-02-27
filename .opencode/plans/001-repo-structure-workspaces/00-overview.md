@@ -1,5 +1,7 @@
 # Plano 001 - Estrutura do Monorepo
 
+Status: [DONE]
+
 ## Objetivo
 - Definir a estrutura base do monorepo e regras de dependencia.
 - Configurar workspaces e bases de TypeScript.
