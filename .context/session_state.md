@@ -28,6 +28,14 @@
 - LiveKit base styles imported via `@livekit/components-styles`; Tailwind integrated through PostCSS (`@tailwindcss/postcss`) for minimalist UI styling with `lucide-react` icons.
 - Per testing policy, no React UI unit/component tests were added.
 - Validation executed for this step: `bun run --filter @livemeet/web build`, `bun run --filter @livemeet/web lint`, and `bun run --filter @livemeet/api build` all passing.
+- Plan 005 infrastructure preparation completed.
+- `apps/web/Dockerfile` added with multi-stage build (Bun builder) and static runtime via `nginx:alpine`.
+- `apps/web/nginx.conf` added for SPA serving on port `5173` with fallback to `index.html`.
+- `docker-compose.yml` reviewed and updated so LiveKit RTC UDP mapping is explicit on `7882:7882/udp`; UDP range `50000-50050/udp` already aligned.
+- `docker-compose.yml` services, env vars, and network remain aligned with PRD Section 11.1 (`livekit`, `redis`, `postgres`, `api`, `web` on `livemeet-net`).
+- `livekit.yaml` reviewed and aligned with PRD Section 11.2 (`port 7880`, `udp_port 7882`, `tcp_port 7881`, `50000-50050`, `devkey/secret`).
+- Manual validation checklist created at `.context/manual_test_checklist.md` with TP01-TP10 checkboxes from PRD Section 15.5.
+- Validation executed for this step: `bun run --filter @livemeet/web build`, `docker compose config`, and `docker compose build web` all passing.
 
 ## Decision Log
 - Kept scope limited to infrastructure and workspace scaffolding only (no NestJS or React implementation).
@@ -47,6 +55,9 @@
 - Marked Plan 004 as `[IN_PROGRESS]` and explicitly set the scaffolding task as `[DONE]` while keeping feature implementation tasks pending.
 - Chose runtime schema parsing in frontend token flow (request + response) to keep strict contract parity with backend and shared-types.
 - Completed Plan 004 and marked all planned frontend tasks as `[DONE]`.
+- Chose `nginx:alpine` as web runtime image for lightweight static delivery and predictable SPA behavior in Docker.
+- Kept Docker Compose `version` field unchanged despite warning, per user instruction to ignore that warning in this phase.
+- Explicitly marked LiveKit `7882` mapping as UDP in Compose to match `livekit.yaml rtc.udp_port` and local manual test expectations.
 
 ## Blockers
 - None currently.

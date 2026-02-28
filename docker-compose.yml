@@ -6,7 +6,7 @@ services:
     ports:
       - "7880:7880"   # API/Signal (HTTP/WebSocket)
       - "7881:7881"   # TCP (RTC)
-      - "7882:7882"   # UDP (RTC)
+      - "7882:7882/udp"   # UDP (RTC)
       - "50000-50050:50000-50050/udp" # Media Ports (Range reduzido local)
     volumes:
       - ./livekit.yaml:/livekit.yaml
