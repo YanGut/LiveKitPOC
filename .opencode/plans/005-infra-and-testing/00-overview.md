@@ -15,3 +15,4 @@ Status: [DONE]
 - [DONE] Revisar `docker-compose.yml` e `livekit.yaml` contra PRD secoes 11.1 e 11.2.
 - [DONE] Criar checklist manual TP01-TP10 em `.context/manual_test_checklist.md`.
 - [DONE] Corrigir bloqueio de infraestrutura no container web com proxy `/auth` do Nginx para `api:3000`.
+- [DONE] Corrigir bloqueio de runtime do API container garantindo dependencias NestJS no stage final (`reflect-metadata`).

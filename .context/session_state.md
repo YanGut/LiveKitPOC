@@ -38,6 +38,9 @@
 - Validation executed for this step: `bun run --filter @livemeet/web build`, `docker compose config`, and `docker compose build web` all passing.
 - Frontend infrastructure blocker resolved: `POST /auth/token` returned `405 Not Allowed` from `nginx` in containerized web flow.
 - `apps/web/nginx.conf` now proxies `/auth` requests to `http://api:3000`, restoring login/token flow in Docker Compose.
+- API container dependency blocker resolved: startup failed with `Cannot find package 'reflect-metadata'` from `apps/api/dist/main.js`.
+- `apps/api/Dockerfile` runtime stage now copies workspace runtime dependencies from `apps/api/node_modules` (and `packages/shared-types/node_modules`) in addition to root `node_modules`.
+- Validation for API image fix: `docker compose build api` passed, and container entrypoint starts NestJS successfully until expected env validation (`DATABASE_URL`) when run without Compose envs.
 
 ## Decision Log
 - Kept scope limited to infrastructure and workspace scaffolding only (no NestJS or React implementation).
@@ -61,7 +64,10 @@
 - Kept Docker Compose `version` field unchanged despite warning, per user instruction to ignore that warning in this phase.
 - Explicitly marked LiveKit `7882` mapping as UDP in Compose to match `livekit.yaml rtc.udp_port` and local manual test expectations.
 - Chose Nginx reverse-proxy strategy (Option A) for `/auth` instead of backend-wide CORS changes, keeping same-origin frontend requests in production container mode.
+- Chose to keep Bun runtime execution (`bun apps/api/dist/main.js`) and fix dependency availability by copying workspace-level `node_modules` into the API runtime image.
 
 ## Blockers
 - Resolved: Web container returned `405 Not Allowed` for `POST /auth/token` because static Nginx had no `/auth` proxy.
 - Solution: Added `location /auth { proxy_pass http://api:3000; ... }` to `apps/web/nginx.conf`.
+- Resolved: API container failed with `Cannot find package 'reflect-metadata'` due missing workspace runtime dependencies in final API image.
+- Solution: Updated `apps/api/Dockerfile` to copy `apps/api/node_modules` and `packages/shared-types/node_modules` into runtime stage.
