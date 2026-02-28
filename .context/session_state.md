@@ -41,6 +41,7 @@
 - API container dependency blocker resolved: startup failed with `Cannot find package 'reflect-metadata'` from `apps/api/dist/main.js`.
 - `apps/api/Dockerfile` runtime stage now copies workspace runtime dependencies from `apps/api/node_modules` (and `packages/shared-types/node_modules`) in addition to root `node_modules`.
 - Validation for API image fix: `docker compose build api` passed, and container entrypoint starts NestJS successfully until expected env validation (`DATABASE_URL`) when run without Compose envs.
+- Root `README.md` was rewritten in English and aligned with current implementation status (Plans 000-005 done), Dockerized runtime, manual TP01-TP10 checklist, and resolved infra fixes (`/auth` reverse proxy and API runtime dependencies).
 
 ## Decision Log
 - Kept scope limited to infrastructure and workspace scaffolding only (no NestJS or React implementation).
@@ -65,6 +66,7 @@
 - Explicitly marked LiveKit `7882` mapping as UDP in Compose to match `livekit.yaml rtc.udp_port` and local manual test expectations.
 - Chose Nginx reverse-proxy strategy (Option A) for `/auth` instead of backend-wide CORS changes, keeping same-origin frontend requests in production container mode.
 - Chose to keep Bun runtime execution (`bun apps/api/dist/main.js`) and fix dependency availability by copying workspace-level `node_modules` into the API runtime image.
+- Consolidated project documentation in `README.md` to remove stale statements and reflect the current runnable flow for both Docker and local development.
 
 ## Blockers
 - Resolved: Web container returned `405 Not Allowed` for `POST /auth/token` because static Nginx had no `/auth` proxy.
