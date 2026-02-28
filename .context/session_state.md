@@ -13,6 +13,7 @@
 - Plan 003 completed with NestJS API modules (`Auth`, `LiveKit`, `Session`, `Database`) and `POST /auth/token` implemented.
 - Session log persistence implemented via TypeORM entity/table mapping for `session_logs` (PostgreSQL).
 - Mandatory API E2E tests for `POST /auth/token` implemented and passing (`3` tests).
+- README raiz reescrito em pt-BR com status atual da POC, instrucoes de setup, execucao, testes e endpoint disponivel.
 
 ## Decision Log
 - Kept scope limited to infrastructure and workspace scaffolding only (no NestJS or React implementation).
@@ -25,6 +26,7 @@
 - Selected TypeORM + PostgreSQL for API persistence to align with PRD and reduce setup time in NestJS.
 - Adopted `nestjs-zod` with global `ZodValidationPipe` and DTOs generated from `@livemeet/shared-types` schemas to prevent contract drift.
 - Kept E2E tests focused on auth route contract/JWT payload while mocking persistence boundary for deterministic CI execution.
+- README mantido aderente ao estado real do repositorio (sem prometer funcionalidades ainda nao implementadas).
 
 ## Blockers
 - None currently.
