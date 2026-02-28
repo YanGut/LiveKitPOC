@@ -36,6 +36,8 @@
 - `livekit.yaml` reviewed and aligned with PRD Section 11.2 (`port 7880`, `udp_port 7882`, `tcp_port 7881`, `50000-50050`, `devkey/secret`).
 - Manual validation checklist created at `.context/manual_test_checklist.md` with TP01-TP10 checkboxes from PRD Section 15.5.
 - Validation executed for this step: `bun run --filter @livemeet/web build`, `docker compose config`, and `docker compose build web` all passing.
+- Frontend infrastructure blocker resolved: `POST /auth/token` returned `405 Not Allowed` from `nginx` in containerized web flow.
+- `apps/web/nginx.conf` now proxies `/auth` requests to `http://api:3000`, restoring login/token flow in Docker Compose.
 
 ## Decision Log
 - Kept scope limited to infrastructure and workspace scaffolding only (no NestJS or React implementation).
@@ -58,6 +60,8 @@
 - Chose `nginx:alpine` as web runtime image for lightweight static delivery and predictable SPA behavior in Docker.
 - Kept Docker Compose `version` field unchanged despite warning, per user instruction to ignore that warning in this phase.
 - Explicitly marked LiveKit `7882` mapping as UDP in Compose to match `livekit.yaml rtc.udp_port` and local manual test expectations.
+- Chose Nginx reverse-proxy strategy (Option A) for `/auth` instead of backend-wide CORS changes, keeping same-origin frontend requests in production container mode.
 
 ## Blockers
-- None currently.
+- Resolved: Web container returned `405 Not Allowed` for `POST /auth/token` because static Nginx had no `/auth` proxy.
+- Solution: Added `location /auth { proxy_pass http://api:3000; ... }` to `apps/web/nginx.conf`.
