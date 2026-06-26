@@ -2,7 +2,6 @@ import {
   ConnectionStateToast,
   LiveKitRoom,
   RoomAudioRenderer,
-  VideoConference,
   useConnectionState,
 } from "@livekit/components-react";
 import { AlertTriangle, LogOut, Wifi } from "lucide-react";
@@ -10,6 +9,7 @@ import { useCallback, useState } from "react";
 import type { MediaDeviceFailure } from "livekit-client";
 
 import type { RoomSession } from "../../types/session";
+import { RoomContent } from "./RoomContent";
 
 type RoomViewProps = {
   session: RoomSession;
@@ -81,7 +81,7 @@ export function RoomView({ session, onLeave }: RoomViewProps) {
       )}
 
       <div className="flex-1 overflow-hidden px-3 pb-3 pt-3">
-        <VideoConference />
+        <RoomContent />
       </div>
 
       <RoomAudioRenderer />
