@@ -8,7 +8,9 @@ import {
 import { AlertTriangle, Hand } from "lucide-react";
 import { Track } from "livekit-client";
 
+import { BluetoothButton } from "./BluetoothButton";
 import { RaiseHandButton } from "./RaiseHandButton";
+import { useBluetoothStatus } from "./useBluetoothStatus";
 import { useRaiseHand } from "./useRaiseHand";
 
 function ParticipantTileWithRaiseHand({ raisedHands }: Pick<ReturnType<typeof useRaiseHand>, "raisedHands">) {
@@ -35,6 +37,7 @@ export function RoomContent() {
     { source: Track.Source.ScreenShare, withPlaceholder: false },
   ]);
   const { isLocalHandRaised, isPublishing, publishError, raisedHands, toggleLocalHand } = useRaiseHand();
+  const { isConnected, isReconnecting, reconnect } = useBluetoothStatus();
 
   return (
     <div className="flex h-full min-h-0 flex-col gap-3">
@@ -64,6 +67,7 @@ export function RoomContent() {
           variation="minimal"
         />
         <RaiseHandButton isRaised={isLocalHandRaised} isPublishing={isPublishing} onToggle={toggleLocalHand} />
+        <BluetoothButton isConnected={isConnected} isReconnecting={isReconnecting} onReconnect={reconnect} />
       </div>
     </div>
   );
