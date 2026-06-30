@@ -42,6 +42,23 @@
 - `apps/api/Dockerfile` runtime stage now copies workspace runtime dependencies from `apps/api/node_modules` (and `packages/shared-types/node_modules`) in addition to root `node_modules`.
 - Validation for API image fix: `docker compose build api` passed, and container entrypoint starts NestJS successfully until expected env validation (`DATABASE_URL`) when run without Compose envs.
 - Root `README.md` was rewritten in English and aligned with current implementation status (Plans 000-005 done), Dockerized runtime, manual TP01-TP10 checklist, and resolved infra fixes (`/auth` reverse proxy and API runtime dependencies).
+- Local root `.env` created from Docker-compatible defaults so cloned workspaces have the API, LiveKit, Redis, Postgres, and Vite runtime variables available locally.
+- Validation executed after `.env` creation: `docker compose config` passed. Existing Compose warning about obsolete top-level `version` remains intentionally ignored per prior decision.
+- Plan 006 completed with a room-wide transient Raise Hand feature in the web app.
+- Added Bun tests for pure raise-hand protocol/state behavior under `apps/web/src/features/room/raiseHand.test.ts`; tests were first run red against the missing helper module, then green after implementation.
+- Added `apps/web` test script (`bun test ./src/features/room`) and excluded `src/**/*.test.ts` from the Vite app TypeScript build.
+- Replaced the stock `VideoConference` room body with a custom LiveKit layout that preserves core mic/camera/settings controls and adds a Raise Hand control plus per-participant raised-hand badges.
+- Raise Hand state now propagates via reliable LiveKit data messages on topic `livemeet.raise-hand.v1`, is keyed by LiveKit `participant.identity`, clears on participant disconnect, and rebroadcasts local raised state when a new participant joins.
+- Validation executed for this step: `bun run --filter @livemeet/web test`, `bun run lint` from `apps/web`, `bun run --filter @livemeet/shared-types build`, and `bun run build` from `apps/web` all passed. Vite build still emits the existing chunk-size warning.
+- Resolved post-implementation white-screen bug after entering a meeting: custom `ControlBar` enabled `settings: true`, but LiveKit `SettingsMenuToggle` requires `LayoutContextProvider` from the prefab `VideoConference` layout and throws outside that context.
+- `RoomContent` now disables the settings toggle in the standalone custom control bar and reads the tile participant from `useTrackRefContext()` for raise-hand badges.
+- Validation after white-screen fix: `bun run --filter @livemeet/web test`, `bun run lint` from `apps/web`, and `bun run build` from `apps/web` passed. Vite build still emits the existing chunk-size warning.
+- Plan 007 completed with a Bluetooth oximeter reconnect button in the web app.
+- Added pure state helpers (`bluetoothStatus.ts`) with 7 Bun unit tests (`bluetoothStatus.test.ts`) following TDD (failing tests first).
+- Added `BluetoothButton.tsx` (presentational, prop-driven) and `useBluetoothStatus.ts` (thin hook delegating to pure helpers).
+- Integrated `BluetoothButton` into `RoomContent.tsx` control bar alongside existing `RaiseHandButton`.
+- Bluetooth reconnect logic is a no-op stub (`console.info` + simulated delay); real BLE layer is deferred.
+- Validation executed for this step: `bun run --filter @livemeet/web test` (15 pass, 0 fail), `bun run lint` (0 errors), and `bun run build` all passed.
 
 ## Decision Log
 - Kept scope limited to infrastructure and workspace scaffolding only (no NestJS or React implementation).
@@ -67,6 +84,12 @@
 - Chose Nginx reverse-proxy strategy (Option A) for `/auth` instead of backend-wide CORS changes, keeping same-origin frontend requests in production container mode.
 - Chose to keep Bun runtime execution (`bun apps/api/dist/main.js`) and fix dependency availability by copying workspace-level `node_modules` into the API runtime image.
 - Consolidated project documentation in `README.md` to remove stale statements and reflect the current runnable flow for both Docker and local development.
+- Kept local `.env` values aligned with existing Compose service defaults (`user/password@postgres:5432/livemeet`, `redis:6379`, LiveKit `devkey/secret`, container LiveKit URL `ws://livekit:7880`, browser LiveKit URL `ws://localhost:7880`).
+- Implemented Raise Hand as frontend-only transient room state using LiveKit reliable data messages instead of backend persistence or shared API contract changes.
+- Chose pure protocol/state helpers for automated coverage, keeping React/media-device UI behavior in manual verification scope while honoring the requested failing-test-first workflow.
+- Chose to remove the custom control bar settings toggle instead of adding a full LiveKit `LayoutContextProvider`/settings-modal implementation, because the POC had no settings UI requirement and the browser/device menus for mic/camera remain available.
+- Extracted Bluetooth state as pure helpers (`bluetoothStatus.ts`) separate from the React hook, mirroring the `raiseHand.ts` pattern, to keep logic testable and DRY.
+- Changed `applyReconnectSuccess` and `applyDisconnect` to parameterless functions (they always return a fixed state), resolving ESLint unused-vars errors without suppressing the rule.
 
 ## Blockers
 - Resolved: Web container returned `405 Not Allowed` for `POST /auth/token` because static Nginx had no `/auth` proxy.
